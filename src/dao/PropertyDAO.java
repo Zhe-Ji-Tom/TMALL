@@ -72,6 +72,17 @@ public class PropertyDAO {
 		}
 	}
 	
+	//删除
+	public void delete(int id) {
+		try(Connection c=DBUtil.getConnection();Statement s=c.createStatement();){
+			
+			String sql="delete from property where id="+id;
+			s.execute(sql);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//通过id获取数据
 	public Property get(int id) {
 		Property bean=new Property();

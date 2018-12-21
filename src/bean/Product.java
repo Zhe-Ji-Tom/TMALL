@@ -21,6 +21,8 @@ public class Product {
 	private List<ProductImage> productImages;
 	private List<ProductImage> productSingleImages;
 	private List<ProductImage> productDetailImages;
+	private int reviewCount;
+	private int saleCount;
 	
 	public String getName() {
         return name;

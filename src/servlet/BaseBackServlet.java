@@ -23,7 +23,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import dao.*;
 import util.Page;
 
-public class BaseBackServlet extends HttpServlet{
+public abstract class BaseBackServlet extends HttpServlet{
 	
 	public abstract String add(HttpServletRequest request,HttpServletResponse response,Page page);
 	public abstract String delete(HttpServletRequest request,HttpServletResponse response,Page page);

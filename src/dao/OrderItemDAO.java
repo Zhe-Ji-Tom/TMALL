@@ -208,6 +208,20 @@ public class OrderItemDAO {
 	}
 	
 	//统计总价
+	public void fill(List<Order> os) {
+		for(Order o:os) {
+			List<OrderItem> ois=listByOrder(o.getId());
+			float total=0;
+			int totalNumber=0;
+			for(OrderItem oi:ois) {
+				total+=oi.getNumber()*oi.getProduct().getPromotePrice();
+				totalNumber+=oi.getNumber();
+			}
+			o.setTotal(total);
+			o.setOrderItems(ois);
+			o.setTotalNumber(totalNumber);
+		}
+	}
 	public void fill(Order o) {
 		List<OrderItem> ois=listByOrder(o.getId());
 		float total=0;

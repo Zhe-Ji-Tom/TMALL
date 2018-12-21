@@ -179,4 +179,49 @@ public class PropertyValueDAO {
 		}
 		return beans;
 	}
+	
+	//列举某一产品的所有属性值
+	public List<PropertyValue> list(int pid){
+		List<PropertyValue> beans=new ArrayList<PropertyValue>();
+		String sql="select * from PropertyValue where pid=? order by ptid desc";
+		
+		try(Connection c=DBUtil.getConnection();PreparedStatement ps=c.prepareStatement(sql);){
+			
+			ps.setInt(1, pid);
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				PropertyValue bean=new PropertyValue();
+				int id=rs.getInt(1);
+				int ptid=rs.getInt("ptid");
+				String value=rs.getString("value");
+				Product product=new ProductDAO().get(pid);
+				Property property=new PropertyDAO().get(ptid);
+				
+				bean.setProduct(product);
+				bean.setProperty(property);
+				bean.setValue(value);
+				bean.setId(id);
+				beans.add(bean);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return beans;
+	}
+	
+	//初始
+	public void init(Product p) {
+		List<Property> pts=new PropertyDAO().list(p.getCategory().getId());
+		
+		for(Property pt:pts) {
+			PropertyValue pv=get(pt.getId(),p.getId());
+			if(null==pv) {
+				pv=new PropertyValue();
+				pv.setProduct(p);
+				pv.setProperty(pt);
+				this.add(pv);
+			}
+		}
+	}
 }
